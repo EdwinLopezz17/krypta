@@ -1,0 +1,10 @@
+cat > .gitignore << 'EOF'
+.env/
+__pycache__/
+*.pyc
+data/
+dist/
+build/
+*.spec
+.DS_Store
+EOF
