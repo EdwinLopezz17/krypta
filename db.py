@@ -2,7 +2,13 @@ import sqlite3
 import os
 from pathlib import Path
 
-BASE_DIR = Path(__file__).parent
+def get_base_dir() -> Path:
+    if getattr(sys, 'frozen', False):
+        return Path(sys.executable).parent
+    else:
+        return Path(__file__).parent
+
+BASE_DIR = get_base_dir()
 DATA_DIR = BASE_DIR / "data"
 DB_PATH  = DATA_DIR / "krypta.db"
 
@@ -35,22 +41,16 @@ def init_db() -> None:
             );
         """)
     conn.close()
-    print(f"[OK] Base de datos inicializada en: {DB_PATH}")
-
 
 def db_status() -> dict:
     conn = get_connection()
     cur  = conn.cursor()
-
     cur.execute("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name")
     tables = [row["name"] for row in cur.fetchall()]
-
     cur.execute("SELECT COUNT(*) as n FROM passwords")
     count = cur.fetchone()["n"]
-
     cur.execute("SELECT COUNT(*) as n FROM master")
     has_master = cur.fetchone()["n"] == 1
-
     conn.close()
     return {
         "path":       str(DB_PATH),
@@ -58,7 +58,6 @@ def db_status() -> dict:
         "entries":    count,
         "has_master": has_master,
     }
-
 
 if __name__ == "__main__":
     init_db()
