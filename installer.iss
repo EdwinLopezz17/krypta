@@ -1,6 +1,6 @@
 [Setup]
 AppName=Krypta
-AppVersion=1.0
+AppVersion=1.1.0
 AppPublisher=Edwin
 DefaultDirName={autopf}\Krypta
 DefaultGroupName=Krypta
