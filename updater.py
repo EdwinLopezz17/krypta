@@ -5,7 +5,7 @@ import urllib.error
 import json
 import customtkinter as ctk
 
-CURRENT_VERSION  = "1.0.0"
+CURRENT_VERSION  = "1.1.0"
 GITHUB_USER      = "EdwinLopezz17"
 GITHUB_REPO      = "krypta"
 API_URL          = f"https://api.github.com/repos/{GITHUB_USER}/{GITHUB_REPO}/releases/latest"
