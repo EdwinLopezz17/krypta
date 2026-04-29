@@ -1,6 +1,8 @@
 import uuid
 import threading
 import pyperclip
+import random
+import string
 from db     import get_connection
 from crypto import encrypt, decrypt
 
@@ -109,3 +111,32 @@ def copy_to_clipboard(text: str, clear_after: int = 30) -> None:
     _clipboard_timer.daemon = True
     _clipboard_timer.start()
     print(f"  [Clipboard] Copiado. Se borrará en {clear_after}s.")
+
+
+def generate_password(
+    length: int = 20,
+    use_upper: bool = True,
+    use_digits: bool = True,
+    use_symbols: bool = True,
+) -> str:
+
+    pool     = string.ascii_lowercase
+    required = [random.choice(string.ascii_lowercase)]
+
+    if use_upper:
+        pool     += string.ascii_uppercase
+        required.append(random.choice(string.ascii_uppercase))
+    if use_digits:
+        pool     += string.digits
+        required.append(random.choice(string.digits))
+    if use_symbols:
+        symbols   = "!@#$%^&*()_+-=[]{}|;:,.<>?"
+        pool     += symbols
+        required.append(random.choice(symbols))
+
+    remaining = [random.choice(pool) for _ in range(length - len(required))]
+    password  = required + remaining
+
+    random.SystemRandom().shuffle(password)
+    return "".join(password)
+
